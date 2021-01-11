@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>订单页面</title>
+<link th:href="@{/css/common.css}"
+	rel="stylesheet" type="text/css" />
+<link th:href="@{/css/cart.css}"
+	rel="stylesheet" type="text/css" />
+<link th:href="@{/css/product.css}"
+	rel="stylesheet" type="text/css" />
+<script>
+function fenye(curPage){
+	location.href="/order/list?curPage="+curPage;
+}
+ </script>
+</head>
+<body>
+
+	<div class="container header">
+		<div class="span5">
+			<div class="logo">
+				<a href="./网上商城/index.htm"> <img
+					th:src="@{/image/vimly.gif}"
+					alt="" /> </a>
+			</div>
+		</div>
+		<div class="span9">
+			<div class="headerAd">
+				<img th:src="@{/image/header.jpg}"
+					width="320" height="50" alt="正品保障" title="正品保障" />
+			</div>
+		</div>
+
+		<div th:replace="menu::menu"></div>
+
+	</div>
+
+	<div class="container cart">
+
+		<div class="span24">
+
+			<div class="step step1">
+				<ul>
+
+					<li class="current"></li>
+					<li>我的订单</li>
+				</ul>
+			</div>
+
+			<table>
+				<tbody  th:each="order:${list}">
+				         <tr>
+							<th colspan="5" >
+								<span th:text="|订单编号:${order.id}  订单金额:${order.total}|"></span>
+							&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">
+									<a  th:if="${order.state == 1}" th:href="@{|/order/payMoney?id=${order.id}|}" th:text="付款"></a>
+									<span  th:if="${order.state == 2}" th:text="已经付款"></span>
+									<a  th:if="${order.state == 3}" th:href="@{|/order/receive?id=${order.id}|}" th:text="确认收货"></a>
+									<span  th:if="${order.state == 4}" th:text="交易成功"></span>
+							</font>
+							</th>
+						</tr>
+						<tr>
+							<th>图片</th>
+							<th>商品</th>
+							<th>价格</th>
+							<th>数量</th>
+							<th>小计</th>
+						</tr>
+
+							<tr th:each="item:${order.items}">
+								<td width="60"><img th:src="${item.product.image}" />
+								</td>
+								<td th:text="${item.product.name}"></td>
+								<td th:text="${item.product.shopPrice}"></td>
+								<td class="quantity" width="60" th:text="${item.count}"></td>
+								<td width="140"><span class="subtotal" th:text="|￥${item.subtotal}|">
+								</span></td>
+							</tr>
+				</tbody>
+						<font th:text="|当前页:第${page.pageNum}页 / 总记录数:${page.total}条 / 每页显示:${page.pageSize}条 / 总页数:${page.pages}页|"></font>　
+									<span th:if="${page.pages>0}" th:each="wp:${#numbers.sequence(1,page.pages)}" >
+							<b th:if="${page.pageNum==wp}"><font color="red" th:text="${wp}"></font></b>
+							<a th:if="${page.pageNum!=wp}" th:href="|javascript:fenye('${wp}')|" class="a03" th:text="${wp}"></a>
+						</span>
+
+			</table>
+
+		</div>
+
+	</div>
+	<div class="container footer">
+		<div class="span24">
+			<div class="footerAd">
+				<img src="${pageContext.request.contextPath}/image/r___________renleipic_01/footer.jpg" alt="我们的优势"
+					title="我们的优势" height="52" width="950"/>
+			</div>
+		</div>
+		<div class="span24">
+			<ul class="bottomNav">
+				<li><a href="#">关于我们</a> |</li>
+				<li><a href="#">联系我们</a> |</li>
+				<li><a href="#">诚聘英才</a> |</li>
+				<li><a href="#">法律声明</a> |</li>
+				<li><a>友情链接</a> |</li>
+				<li><a target="_blank">支付方式</a> |</li>
+				<li><a target="_blank">配送方式</a> |</li>
+				<li><a>SHOP++官网</a> |</li>
+				<li><a>SHOP++论坛</a></li>
+			</ul>
+		</div>
+		<div class="span24">
+			<div class="copyright">Copyright © 2005-2015 网上商城 版权所有</div>
+		</div>
+	</div>
+</body>
+</html>

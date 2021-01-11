@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>网上商城</title>
+<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css"/>
+<link th:href="@{/css/product.css}" rel="stylesheet" type="text/css"/>
+<script>
+function fenye(curPage){
+	location.href="/product/list?curPage="+curPage+"&cid=[[${cid}]]&scid=[[${scid}]]";
+}
+</script>
+</head>
+<body>
+<div class="container header">
+	<div class="span5">
+		<div class="logo">
+			<a href="http://localhost:8080/mango/">
+				<img src="/image/vimly.gif" alt=""/>
+			</a>
+		</div>
+	</div>
+	<div class="span9">
+<div class="headerAd">
+					<img src="/image/header.jpg" width="320" height="50" alt="正品保障" title="正品保障"/>
+</div>	</div>
+
+	<div class="panelBar" th:replace="menu::menu"></div>
+	
+</div>	
+<div class="container productList">
+		<div class="span6">
+			<div class="hotProductCategory">
+						<dl th:each="category:${categories}">
+							<dt>
+								<a th:href="@{|/product/list?cid=${category.id}|}" th:text="${category.name}"></a>
+							</dt>
+									<dd th:each="second:${category.secondcategories}">
+										<a th:href="@{|/product/list?scid=${second.id}|}" th:text="${second.name}"></a>
+									</dd>
+						</dl>
+				</c:forEach>		
+			</div>
+		</div>
+		<div class="span18 last">
+			
+				<div id="result" class="result table clearfix">
+						<ul>
+								<li th:each="entry:${list}">
+										<a th:href="|/product/show/${entry.id}|">
+											<img th:src="${entry.image}" width="170" height="170"  style="display: inline-block;"/>
+											   
+											<span style='color:green' th:text="${entry.name}">
+
+											</span>
+											 
+											<span class="price" th:text="|商城价： ￥  ${entry.shopPrice} |">
+
+											</span>
+											 
+										</a>
+								</li>
+
+						</ul>
+				</div>
+		
+<font th:text="|当前页:第${page.pageNum}页 / 总记录数:${page.total}条 / 每页显示:${page.pageSize}条 / 总页数:${page.pages}页|"></font>　
+			<span th:if="${page.pages>0}" th:each="wp:${#numbers.sequence(1,page.pages)}" >
+				<b th:if="${page.pageNum==wp}"><font color="red" th:text="${wp}"></font></b>
+				<a th:if="${page.pageNum!=wp}" th:href="|javascript:fenye('${wp}')|" class="a03" th:text="${wp}"></a>
+			</span>
+
+
+		</div>
+	</div>
+<div class="container footer">
+	<div class="span24">
+		<div class="footerAd">
+					<img src="${pageContext.request.contextPath}/image/footer.jpg" width="950" height="52" alt="我们的优势" title="我们的优势"/>
+</div>	</div>
+	<div class="span24">
+		<ul class="bottomNav">
+					<li>
+						<a >关于我们</a>
+						|
+					</li>
+					<li>
+						<a>联系我们</a>
+						|
+					</li>
+					<li>
+						<a >诚聘英才</a>
+						|
+					</li>
+					<li>
+						<a >法律声明</a>
+						|
+					</li>
+					<li>
+						<a>友情链接</a>
+						|
+					</li>
+					<li>
+						<a target="_blank">支付方式</a>
+						|
+					</li>
+					<li>
+						<a  target="_blank">配送方式</a>
+						|
+					</li>
+					<li>
+						<a >官网</a>
+						|
+					</li>
+					<li>
+						<a >论坛</a>
+						
+					</li>
+		</ul>
+	</div>
+	<div class="span24">
+		<div class="copyright">Copyright©2005-2015 网上商城 版权所有</div>
+	</div>
+</div>
+</body></html>

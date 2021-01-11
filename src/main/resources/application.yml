@@ -1,0 +1,10 @@
+server:
+  port: 8082
+dubbo:
+  registry:
+    address: zookeeper://192.168.204.160:2181
+  application:
+    name: myshop-portal
+spring:
+  redis:
+    host: 192.168.204.160
